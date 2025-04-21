@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,18 @@ const subjectAreas = [
 ];
 
 const Subjects = () => {
+  const navigate = useNavigate();
+
+  const handleSubjectClick = (subject: string) => {
+    // Navigate to events page with subject filter
+    navigate(`/events?subject=${encodeURIComponent(subject)}`);
+  };
+
+  const handleCategoryClick = (category: string) => {
+    // Navigate to events page with category filter
+    navigate(`/events?category=${encodeURIComponent(category)}`);
+  };
+
   return (
     <Layout>
       <div className="container py-8">
@@ -79,6 +92,7 @@ const Subjects = () => {
                       key={sIndex} 
                       variant="outline" 
                       className="cursor-pointer hover:bg-[#9b87f5]/10"
+                      onClick={() => handleSubjectClick(subject)}
                     >
                       {subject}
                     </Badge>
@@ -88,6 +102,7 @@ const Subjects = () => {
                   variant="outline" 
                   size="sm" 
                   className="mt-2 border-[#9b87f5] text-[#6E59A5] hover:bg-[#9b87f5]/10"
+                  onClick={() => handleCategoryClick(area.category)}
                 >
                   Browse {area.category} Events
                 </Button>

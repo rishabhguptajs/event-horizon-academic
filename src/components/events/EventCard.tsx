@@ -3,7 +3,7 @@ import { Calendar, MapPin, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface EventProps {
   id: string;
@@ -30,6 +30,8 @@ const EventCard = ({
   academicLevel,
   imageUrl 
 }: EventProps) => {
+  const navigate = useNavigate();
+  
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -56,6 +58,10 @@ const EventCard = ({
     }
   };
 
+  const handleNavigateToDetail = () => {
+    navigate(`/events/${id}`);
+  };
+
   return (
     <Card className="overflow-hidden transition-all hover:shadow-md">
       <div className="relative h-48 overflow-hidden">
@@ -78,9 +84,12 @@ const EventCard = ({
 
       <CardHeader className="p-4 pb-2">
         <div className="flex flex-col gap-1">
-          <Link to={`/events/${id}`} className="hover:text-academic-purple transition-colors">
-            <h3 className="font-playfair text-lg font-semibold line-clamp-2">{title}</h3>
-          </Link>
+          <h3 
+            onClick={handleNavigateToDetail}
+            className="font-playfair text-lg font-semibold line-clamp-2 cursor-pointer hover:text-academic-purple transition-colors"
+          >
+            {title}
+          </h3>
           <p className="text-sm text-muted-foreground">{organizer}</p>
         </div>
       </CardHeader>
@@ -109,7 +118,12 @@ const EventCard = ({
       </CardContent>
 
       <CardFooter className="p-4 pt-2 flex justify-between">
-        <Button variant="ghost" size="sm" className="text-academic-purple">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-academic-purple"
+          onClick={handleNavigateToDetail}
+        >
           Learn More
         </Button>
         <Button variant="outline" size="sm">

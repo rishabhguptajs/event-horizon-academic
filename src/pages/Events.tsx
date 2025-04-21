@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import SearchFilters from "@/components/events/SearchFilters";
 import EventCard, { EventProps } from "@/components/events/EventCard";
@@ -8,6 +9,7 @@ import { ListFilter, CalendarRange, Map } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EventCalendar from "@/components/events/EventCalendar";
 import MapView from "@/components/events/MapView";
+import { Badge } from "@/components/ui/badge";
 
 // Sample events data
 const eventsData: EventProps[] = [
@@ -86,8 +88,61 @@ const eventsData: EventProps[] = [
 ];
 
 const Events = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [currentView, setCurrentView] = useState<"list" | "calendar" | "map">("list");
   const [filteredEvents, setFilteredEvents] = useState<EventProps[]>(eventsData);
+  const [activeFilters, setActiveFilters] = useState<{
+    subject?: string;
+    category?: string;
+  }>({});
+
+  useEffect(() => {
+    const subject = searchParams.get("subject");
+    const category = searchParams.get("category");
+    
+    const newActiveFilters: {
+      subject?: string;
+      category?: string;
+    } = {};
+    
+    if (subject) newActiveFilters.subject = subject;
+    if (category) newActiveFilters.category = category;
+    
+    setActiveFilters(newActiveFilters);
+    
+    // Filter events based on URL parameters
+    let filtered = [...eventsData];
+    
+    if (subject) {
+      filtered = filtered.filter(event => 
+        event.subjects.some(s => s.toLowerCase() === subject.toLowerCase())
+      );
+    }
+    
+    // Category filtering would require mapping categories to subjects
+    // This is a simplified implementation
+    if (category) {
+      // Simple heuristic: if category contains any of the subject keywords
+      filtered = filtered.filter(event => 
+        event.subjects.some(s => 
+          category.toLowerCase().includes(s.toLowerCase()) || 
+          s.toLowerCase().includes(category.toLowerCase())
+        )
+      );
+    }
+    
+    setFilteredEvents(filtered);
+  }, [searchParams]);
+
+  const clearFilter = (filterType: 'subject' | 'category') => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete(filterType);
+    setSearchParams(newSearchParams);
+  };
+
+  const clearAllFilters = () => {
+    setSearchParams({});
+  };
 
   return (
     <Layout>
@@ -131,13 +186,65 @@ const Events = () => {
         <div className="mb-6">
           <SearchFilters />
         </div>
+        
+        {/* Active filters display */}
+        {(activeFilters.subject || activeFilters.category) && (
+          <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-gray-50 rounded-md">
+            <span className="text-sm font-medium text-gray-700">Active Filters:</span>
+            
+            {activeFilters.subject && (
+              <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 flex items-center gap-1 px-3 py-1">
+                Subject: {activeFilters.subject}
+                <button 
+                  className="ml-1 hover:text-purple-900" 
+                  onClick={() => clearFilter('subject')}
+                >
+                  ×
+                </button>
+              </Badge>
+            )}
+            
+            {activeFilters.category && (
+              <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 flex items-center gap-1 px-3 py-1">
+                Category: {activeFilters.category}
+                <button 
+                  className="ml-1 hover:text-blue-900" 
+                  onClick={() => clearFilter('category')}
+                >
+                  ×
+                </button>
+              </Badge>
+            )}
+            
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-500 text-xs ml-auto"
+              onClick={clearAllFilters}
+            >
+              Clear All
+            </Button>
+          </div>
+        )}
 
         {currentView === "list" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-6">
-            {filteredEvents.map((event) => (
-              <EventCard key={event.id} {...event} />
-            ))}
-          </div>
+          <>
+            {filteredEvents.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-6">
+                {filteredEvents.map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-medium mb-2">No Events Found</h3>
+                <p className="text-muted-foreground mb-6">
+                  No events match your current filter criteria.
+                </p>
+                <Button onClick={clearAllFilters}>Clear All Filters</Button>
+              </div>
+            )}
+          </>
         )}
 
         {currentView === "calendar" && (
