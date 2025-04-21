@@ -1,4 +1,3 @@
-
 import { CalendarDays, Globe, Search, Users, Book, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -53,29 +52,29 @@ const Index = () => {
         className="bg-gradient-to-br from-[#FDE1D3] via-[#FEC6A1] to-[#F2FCE2] text-[#221F26]"
         style={{
           backgroundImage:
-            "linear-gradient(120deg, #fbeee6 0%, #ffa99f 40%, #e3ffd6 100%)",
+            "linear-gradient(120deg, #fae6cc 0%, #ffa99f 40%, #e3ffd6 100%)",
         }}
       >
         <div className="container py-20 md:py-32 px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow">
+          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+            <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow tracking-tight">
               Explore India’s Academic Events with <span className="text-[#6E59A5]">eventsphere</span>
             </h1>
             <p className="text-lg md:text-xl mb-10 text-[#333]/80">
-              Discover conferences, symposiums, workshops, and seminars from the heart of India’s knowledge network.
+              Discover conferences, symposiums, workshops, and seminars across India’s top institutes.
             </p>
             <div className="relative max-w-2xl mx-auto">
               <Search className="absolute left-4 top-3.5 h-5 w-5 text-[#6E59A5]" />
               <input
                 type="text"
                 placeholder="Search for events, institutes, or locations in India..."
-                className="w-full h-12 pl-12 pr-32 rounded-full bg-white/90 border border-[#6E59A5]/20 text-[#221F26] placeholder:text-[#6E59A5]/60 focus:outline-none focus:ring-2 focus:ring-[#6E59A5]/30"
+                className="w-full h-12 pl-12 pr-32 rounded-full bg-white/95 border-2 border-[#6E59A5]/20 text-[#221F26] placeholder:text-[#6E59A5]/60 shadow transition focus:outline-none focus:ring-2 focus:ring-[#9b87f5]/40"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search events"
               />
               <Button
-                className="absolute right-2 top-1.5 bg-[#6E59A5] text-white hover:bg-[#9b87f5] rounded-full py-2 px-6"
+                className="absolute right-2 top-1.5 bg-gradient-to-r from-[#9b87f5] to-[#6E59A5] hover:from-[#6E59A5] hover:to-[#9b87f5] text-white rounded-full py-2 px-6 font-bold"
                 size="sm"
               >
                 Search
@@ -269,9 +268,9 @@ const Index = () => {
               <div className="mx-auto w-16 h-16 bg-[#FFE29F]/70 rounded-full flex items-center justify-center mb-4">
                 <Search className="h-7 w-7 text-[#F97316]" />
               </div>
-              <h3 className="font-playfair text-xl font-semibold mb-2">Accurate Listings</h3>
+              <h3 className="font-playfair text-xl font-semibold mb-2">Curated Listings</h3>
               <p className="text-[#6E59A5]/80">
-                Authentic academic events curated for India's academic diaspora.
+                Authentic events handpicked for India’s academic community.
               </p>
             </div>
 
@@ -282,7 +281,7 @@ const Index = () => {
               </div>
               <h3 className="font-playfair text-xl font-semibold mb-2">Personalized Alerts</h3>
               <p className="text-[#6E59A5]/80">
-                Never miss out—get notified when events matching your interests are posted.
+                Never miss out—get notified when Indian events match your interests.
               </p>
             </div>
 
@@ -291,9 +290,9 @@ const Index = () => {
               <div className="mx-auto w-16 h-16 bg-[#E5DEFF]/70 rounded-full flex items-center justify-center mb-4">
                 <Globe className="h-7 w-7 text-[#6E59A5]" />
               </div>
-              <h3 className="font-playfair text-xl font-semibold mb-2">All India Reach</h3>
+              <h3 className="font-playfair text-xl font-semibold mb-2">All India Coverage</h3>
               <p className="text-[#6E59A5]/80">
-                Events from leading cities and institutions across the nation.
+                Events from main metros and regional excellence across India.
               </p>
             </div>
           </div>
@@ -334,4 +333,3 @@ const Index = () => {
 };
 
 export default Index;
-
