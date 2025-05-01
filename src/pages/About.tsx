@@ -13,9 +13,7 @@ const About = () => {
             <section>
               <h2 className="text-2xl font-semibold mb-3">Our Mission</h2>
               <p className="text-gray-700">
-                We are dedicated to providing a platform that connects academics
-                and researchers, facilitating the exchange of ideas and
-                fostering collaboration across disciplines.
+                We are dedicated to providing a platform that connects academics and researchers, facilitating the exchange of ideas and fostering collaboration across disciplines.
               </p>
             </section>
 
@@ -60,7 +58,5 @@ const About = () => {
         </div>
       </div>
     </div>
-  )
-}
-
-export default About
+  );
+};
